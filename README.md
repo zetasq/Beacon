@@ -98,3 +98,7 @@ class InterfaceController {
 }
 ```
 > **IMPORTANT:** If you want to reference the listener(directly or indirectly), make sure you have added necessary `weak` references in the signal callback closures. Otherwise the listeners will never be released!
+
+## License
+
+Beacon is released under the MIT license. [See LICENSE](https://github.com/zetasq/Beacon/blob/master/LICENCE) for details.
