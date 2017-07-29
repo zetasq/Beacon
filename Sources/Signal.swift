@@ -17,3 +17,4 @@ public struct Signal<T: SignalBroadcasting> {
   public let payload: T.BroadcastPayload
   
 }
+
