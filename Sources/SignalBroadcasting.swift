@@ -29,10 +29,10 @@ extension SignalBroadcasting {
   }
   
   public static func uniqueBroadcastID(for broadcastIdentifier: BroadcastIdentifier) -> String {
-    let bundleName = Bundle(for: self).object(forInfoDictionaryKey: kCFBundleNameKey as String) as! String
+    let bundleIdentifier = Bundle(for: self).bundleIdentifier!
     let className = "\(self)"
     
-    return bundleName + "::" + className + "." + broadcastIdentifier.rawValue
+    return bundleIdentifier + "::" + className + "." + broadcastIdentifier.rawValue
   }
   
 }
