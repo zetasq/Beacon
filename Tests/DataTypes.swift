@@ -9,18 +9,30 @@
 import Foundation
 @testable import Beacon
 
-class AccountManager: SignalBroadcasting {
+class AccountManager {
+  static let shared = AccountManager()
+}
+
+extension AccountManager: SignalBroadcasting {}
+
+extension AccountManager {
+  
   enum BroadcastIdentifier: String, BroadcastIdentifiable {
+    
     case userLogin
+    
     case userLogout
   }
+}
+
+extension AccountManager {
   
   struct BroadcastPayload {
+    
     let username: String
+    
     let time: Date
   }
-  
-  static let shared = AccountManager()
 }
 
 class InterfaceController {

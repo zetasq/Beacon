@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
-               BuildableName = "Beacon-macOS.framework"
+               BuildableName = "Beacon.framework"
                BlueprintName = "Beacon-macOS"
                ReferencedContainer = "container:Beacon.xcodeproj">
             </BuildableReference>
@@ -43,7 +43,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
-            BuildableName = "Beacon-macOS.framework"
+            BuildableName = "Beacon.framework"
             BlueprintName = "Beacon-macOS"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>
@@ -65,7 +65,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
-            BuildableName = "Beacon-macOS.framework"
+            BuildableName = "Beacon.framework"
             BlueprintName = "Beacon-macOS"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>
@@ -83,7 +83,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
-            BuildableName = "Beacon-macOS.framework"
+            BuildableName = "Beacon.framework"
             BlueprintName = "Beacon-macOS"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>

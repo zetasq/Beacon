@@ -17,7 +17,3 @@ func synchronized<T>(_ lock: AnyObject, _ body: () throws -> T) rethrows -> T {
   
   return try body()
 }
-
-func abc<T: SignalBroadcasting>(value: T.BroadcastIdentifier) {
-  
-}
