@@ -18,6 +18,8 @@ public final class Beacon {
   public static let `default` = Beacon()
   
   // MARK: - Properties
+  
+  /// structure: [broadcastID: [listener: [observer]]]
   private var _broadcastTable: [String: NSMapTable<AnyObject, NSMutableArray>] = [:]
   
   // MARK: - Init & Deinit
@@ -94,7 +96,7 @@ public final class Beacon {
   }
   
   // MARK: - Internal Methods
-  func enqueueBroadcastRequest<T: SignalBroadcasting>(broadcaster: T, identifier: T.BroadcastIdentifier, payload: T.BroadcastPayload) {
+  internal func enqueueBroadcastRequest<T: SignalBroadcasting>(broadcaster: T, identifier: T.BroadcastIdentifier, payload: T.BroadcastPayload) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: identifier)
     
     synchronized(self) {
