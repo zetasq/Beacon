@@ -18,6 +18,7 @@ public final class Beacon {
   public static let `default` = Beacon()
   
   // MARK: - Properties
+  private let _lock = NSLock()
   
   /// structure: [broadcastID: [listener: [observer]]]
   private var _broadcastTable: [String: NSMapTable<AnyObject, NSMutableArray>] = [:]
@@ -29,9 +30,9 @@ public final class Beacon {
   public func addListener<T: SignalBroadcasting>(_ listener: AnyObject, broadcasterType: T.Type, broadcastIdentifier: T.BroadcastIdentifier, broadcaster: T? = nil, observingPolicy: SignalObservingPolicy = .sync, signalHandler: @escaping SignalHandler<T>) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
     
-    synchronized(self) {
+    _lock.synchronized {
       let signalObserver = SignalObserver(observingPolicy: observingPolicy, broadcaster: broadcaster, signalHandler: signalHandler)
-
+      
       if let identifierTable = _broadcastTable[uniqueBroadcastID] {
         if let observerArray = identifierTable.object(forKey: listener) {
           observerArray.add(signalObserver)
@@ -50,7 +51,7 @@ public final class Beacon {
   }
   
   public func removeListener(_ listener: AnyObject) {
-    synchronized(self) {
+    _lock.synchronized {
       for (_, identifierTable) in _broadcastTable {
         identifierTable.removeObject(forKey: listener)
       }
@@ -60,7 +61,7 @@ public final class Beacon {
   public func removeListener<T: SignalBroadcasting>(_ listener: AnyObject, for broadcastIdentifier: T.BroadcastIdentifier) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
     
-    synchronized(self) {
+    _lock.synchronized {
       if let identifierTable = _broadcastTable[uniqueBroadcastID] {
         identifierTable.removeObject(forKey: listener)
       }
@@ -71,7 +72,7 @@ public final class Beacon {
     if let broadcastIdentifier = broadcastIdentifier {
       let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
       
-      synchronized(self) {
+      _lock.synchronized {
         if let identifierTable = _broadcastTable[uniqueBroadcastID], let observerArray = identifierTable.object(forKey: listener) {
           let observers = observerArray as! [SignalObserver<T>]
           
@@ -81,7 +82,7 @@ public final class Beacon {
         }
       }
     } else {
-      synchronized(self) {
+      _lock.synchronized {
         for (_, identifierTable) in _broadcastTable {
           if let observerArray = identifierTable.object(forKey: listener) {
             let observers = observerArray as! [SignalObserver<T>]
@@ -99,27 +100,35 @@ public final class Beacon {
   internal func enqueueBroadcastRequest<T: SignalBroadcasting>(broadcaster: T, identifier: T.BroadcastIdentifier, payload: T.BroadcastPayload) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: identifier)
     
-    synchronized(self) {
+    let interestedObservers: [SignalObserver<T>] = _lock.synchronized {
       guard let identifierTable = _broadcastTable[uniqueBroadcastID], let objectEnumerator = identifierTable.objectEnumerator() else {
-        return
+        return []
       }
+      
+      var results: [SignalObserver<T>] = []
       
       for observerArray in objectEnumerator {
         let observers = observerArray as! [SignalObserver<T>]
         
         for observer in observers {
           if observer.broadcaster == nil || observer.broadcaster! === broadcaster {
-            switch observer.observingPolicy {
-            case .sync:
-              let signal = Signal(sender: broadcaster, payload: payload)
-              observer.signalHandler(signal)
-            case .async(let queue):
-              queue.async {
-                let signal = Signal(sender: broadcaster, payload: payload)
-                observer.signalHandler(signal)
-              }
-            }
+            results.append(observer)
           }
+        }
+      }
+      
+      return results
+    }
+    
+    for observer in interestedObservers {
+      switch observer.observingPolicy {
+      case .sync:
+        let signal = Signal(sender: broadcaster, payload: payload)
+        observer.signalHandler(signal)
+      case .async(let queue):
+        queue.async {
+          let signal = Signal(sender: broadcaster, payload: payload)
+          observer.signalHandler(signal)
         }
       }
     }
