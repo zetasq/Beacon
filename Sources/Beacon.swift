@@ -58,8 +58,8 @@ public final class Beacon {
     }
   }
   
-  public func removeListener<T: SignalBroadcasting>(_ listener: AnyObject, for broadcastIdentifier: T.BroadcastIdentifier) {
-    let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
+  public func removeListener<T: SignalBroadcasting>(_ listener: AnyObject, broadcastingType: T.Type, identifier: T.BroadcastIdentifier) {
+    let uniqueBroadcastID = T.uniqueBroadcastID(for: identifier)
     
     _lock.synchronized {
       if let identifierTable = _broadcastTable[uniqueBroadcastID] {
