@@ -18,10 +18,10 @@ public final class Beacon {
   public static let `default` = Beacon()
   
   // MARK: - Properties
-  private let _lock = NSLock()
+  private var _lock = os_unfair_lock_s()
   
-  /// structure: [broadcastID: [listener: [observer]]]
-  private var _broadcastTable: [String: NSMapTable<AnyObject, NSMutableArray>] = [:]
+  /// structure: [broadcastID: [listener: SignalObserver]]
+  private var _broadcastTable: [String: NSMapTable<AnyObject, AnyObject>] = [:]
   
   // MARK: - Init & Deinit
   public init() {}
@@ -30,41 +30,43 @@ public final class Beacon {
   public func addListener<T: SignalBroadcasting>(_ listener: AnyObject, broadcasterType: T.Type, broadcastIdentifier: T.BroadcastIdentifier, broadcaster: T? = nil, observingPolicy: SignalObservingPolicy = .sync, signalHandler: @escaping SignalHandler<T>) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
     
-    _lock.synchronized {
-      let signalObserver = SignalObserver(observingPolicy: observingPolicy, broadcaster: broadcaster, signalHandler: signalHandler)
-      
-      if let identifierTable = _broadcastTable[uniqueBroadcastID] {
-        if let observerArray = identifierTable.object(forKey: listener) {
-          observerArray.add(signalObserver)
-        } else {
-          let observerArray = NSMutableArray(object: signalObserver)
-          identifierTable.setObject(observerArray, forKey: listener)
-        }
-      } else {
-        let identifierTable = NSMapTable<AnyObject, NSMutableArray>(keyOptions: [.weakMemory, .objectPersonality], valueOptions: [.strongMemory, .objectPersonality])
-        _broadcastTable[uniqueBroadcastID] = identifierTable
-        
-        let observerArray = NSMutableArray(object: signalObserver)
-        identifierTable.setObject(observerArray, forKey: listener)
-      }
+    os_unfair_lock_lock(&_lock)
+    defer {
+      os_unfair_lock_unlock(&_lock)
+    }
+    
+    let signalObserver = SignalObserver(observingPolicy: observingPolicy, broadcaster: broadcaster, signalHandler: signalHandler)
+    
+    if let identifierTable = _broadcastTable[uniqueBroadcastID] {
+      identifierTable.setObject(signalObserver, forKey: listener)
+    } else {
+      let identifierTable = NSMapTable<AnyObject, AnyObject>.weakToStrongObjects()
+      _broadcastTable[uniqueBroadcastID] = identifierTable
+      identifierTable.setObject(signalObserver, forKey: listener)
     }
   }
   
   public func removeListener(_ listener: AnyObject) {
-    _lock.synchronized {
-      for (_, identifierTable) in _broadcastTable {
-        identifierTable.removeObject(forKey: listener)
-      }
+    os_unfair_lock_lock(&_lock)
+    defer {
+      os_unfair_lock_unlock(&_lock)
+    }
+    
+    for (_, identifierTable) in _broadcastTable {
+      identifierTable.removeObject(forKey: listener)
     }
   }
   
   public func removeListener<T: SignalBroadcasting>(_ listener: AnyObject, broadcastingType: T.Type, identifier: T.BroadcastIdentifier) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: identifier)
     
-    _lock.synchronized {
-      if let identifierTable = _broadcastTable[uniqueBroadcastID] {
-        identifierTable.removeObject(forKey: listener)
-      }
+    os_unfair_lock_lock(&_lock)
+    defer {
+      os_unfair_lock_unlock(&_lock)
+    }
+    
+    if let identifierTable = _broadcastTable[uniqueBroadcastID] {
+      identifierTable.removeObject(forKey: listener)
     }
   }
   
@@ -72,25 +74,26 @@ public final class Beacon {
     if let broadcastIdentifier = broadcastIdentifier {
       let uniqueBroadcastID = T.uniqueBroadcastID(for: broadcastIdentifier)
       
-      _lock.synchronized {
-        if let identifierTable = _broadcastTable[uniqueBroadcastID], let observerArray = identifierTable.object(forKey: listener) {
-          let observers = observerArray as! [SignalObserver<T>]
-          
-          for (index, observer) in observers.enumerated() where observer.broadcaster === broadcaster {
-            observerArray.removeObject(at: index)
-          }
-        }
+      os_unfair_lock_lock(&_lock)
+      defer {
+        os_unfair_lock_unlock(&_lock)
+      }
+      
+      if let identifierTable = _broadcastTable[uniqueBroadcastID],
+        let observer = identifierTable.object(forKey: listener) as? SignalObserver<T>,
+        observer.broadcaster === broadcaster {
+        identifierTable.removeObject(forKey: listener)
       }
     } else {
-      _lock.synchronized {
-        for (_, identifierTable) in _broadcastTable {
-          if let observerArray = identifierTable.object(forKey: listener) {
-            let observers = observerArray as! [SignalObserver<T>]
-            
-            for (index, observer) in observers.enumerated() where observer.broadcaster === broadcaster {
-              observerArray.removeObject(at: index)
-            }
-          }
+      os_unfair_lock_lock(&_lock)
+      defer {
+        os_unfair_lock_unlock(&_lock)
+      }
+      
+      for (_, identifierTable) in _broadcastTable {
+        if let observer = identifierTable.object(forKey: listener) as? SignalObserver<T>,
+          observer.broadcaster === broadcaster {
+          identifierTable.removeObject(forKey: listener)
         }
       }
     }
@@ -100,25 +103,21 @@ public final class Beacon {
   internal func enqueueBroadcastRequest<T: SignalBroadcasting>(broadcaster: T, identifier: T.BroadcastIdentifier, payload: T.BroadcastPayload) {
     let uniqueBroadcastID = T.uniqueBroadcastID(for: identifier)
     
-    let interestedObservers: [SignalObserver<T>] = _lock.synchronized {
-      guard let identifierTable = _broadcastTable[uniqueBroadcastID], let objectEnumerator = identifierTable.objectEnumerator() else {
-        return []
-      }
-      
-      var results: [SignalObserver<T>] = []
-      
-      for observerArray in objectEnumerator {
-        let observers = observerArray as! [SignalObserver<T>]
+    var interestedObservers: [SignalObserver<T>] = []
+    
+    os_unfair_lock_lock(&_lock)
+    
+    if let identifierTable = _broadcastTable[uniqueBroadcastID], let objectEnumerator = identifierTable.objectEnumerator() {
+      for object in objectEnumerator {
+        let observer = object as! SignalObserver<T>
         
-        for observer in observers {
-          if observer.broadcaster == nil || observer.broadcaster! === broadcaster {
-            results.append(observer)
-          }
+        if observer.broadcaster == nil || observer.broadcaster === broadcaster {
+          interestedObservers.append(observer)
         }
       }
-      
-      return results
     }
+    
+    os_unfair_lock_unlock(&_lock)
     
     for observer in interestedObservers {
       switch observer.observingPolicy {

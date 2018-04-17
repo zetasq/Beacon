@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D4212B9B1EF2C5D6007F2CD9 /* SignalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4212B9A1EF2C5D6007F2CD9 /* SignalTests.swift */; };
-		D46365211F2D5DDE00748623 /* NSLock+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46365201F2D5DDE00748623 /* NSLock+Sync.swift */; };
-		D46365221F2D5DDE00748623 /* NSLock+Sync.swift in Sources */ = {isa = PBXBuildFile; fileRef = D46365201F2D5DDE00748623 /* NSLock+Sync.swift */; };
 		D4A78ABA1EF2CF6600939B46 /* Beacon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D4A78AB11EF2CF6600939B46 /* Beacon.framework */; };
 		D4A78AC11EF2CF6600939B46 /* Beacon-macOS.h in Headers */ = {isa = PBXBuildFile; fileRef = D4A78AB31EF2CF6600939B46 /* Beacon-macOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D4A78AC81EF2CF8900939B46 /* DataTypes.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4C5DDE31EF28D0800292CF5 /* DataTypes.swift */; };
@@ -46,7 +44,6 @@
 
 /* Begin PBXFileReference section */
 		D4212B9A1EF2C5D6007F2CD9 /* SignalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalTests.swift; sourceTree = "<group>"; };
-		D46365201F2D5DDE00748623 /* NSLock+Sync.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSLock+Sync.swift"; sourceTree = "<group>"; };
 		D4A78AB11EF2CF6600939B46 /* Beacon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Beacon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4A78AB31EF2CF6600939B46 /* Beacon-macOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Beacon-macOS.h"; sourceTree = "<group>"; };
 		D4A78AB41EF2CF6600939B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -146,7 +143,6 @@
 				D4C5DDD61EF132FA00292CF5 /* SignalBroadcasting.swift */,
 				D4C5DDD81EF226EB00292CF5 /* Signal.swift */,
 				D4C5DDDE1EF2753900292CF5 /* SignalObserver.swift */,
-				D46365201F2D5DDE00748623 /* NSLock+Sync.swift */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -278,7 +274,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 0930;
 				ORGANIZATIONNAME = zetasq;
 				TargetAttributes = {
 					D4A78AB01EF2CF6600939B46 = {
@@ -364,7 +360,6 @@
 				D4A78ACB1EF2CF9600939B46 /* SignalBroadcasting.swift in Sources */,
 				D4A78ACD1EF2CF9600939B46 /* SignalObserver.swift in Sources */,
 				D4A78ACC1EF2CF9600939B46 /* Signal.swift in Sources */,
-				D46365221F2D5DDE00748623 /* NSLock+Sync.swift in Sources */,
 				D4A78ACA1EF2CF9600939B46 /* Beacon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -385,7 +380,6 @@
 				D4C5DDDF1EF2753900292CF5 /* SignalObserver.swift in Sources */,
 				D4C5DDD91EF226EB00292CF5 /* Signal.swift in Sources */,
 				D4C5DDD71EF132FA00292CF5 /* SignalBroadcasting.swift in Sources */,
-				D46365211F2D5DDE00748623 /* NSLock+Sync.swift in Sources */,
 				D4C5DDD51EF12F7200292CF5 /* Beacon.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -509,6 +503,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -516,6 +511,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -570,6 +566,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -577,6 +574,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
