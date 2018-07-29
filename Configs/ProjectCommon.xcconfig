@@ -1,0 +1,24 @@
+//
+//  ProjectCommon.xcconfig
+//  SwiftStyle
+//
+//  Created by Zhu Shengqi on 2018/7/29.
+//  Copyright © 2018 Zhu Shengqi. All rights reserved.
+//
+
+SDKROOT = macosx
+
+SUPPORTED_PLATFORMS = macosx iphonesimulator iphoneos watchos watchsimulator appletvos appletvsimulator
+
+VALID_ARCHS[sdk=macosx*]               = i386 x86_64
+VALID_ARCHS[sdk=iphoneos*]             = arm64 armv7 armv7s
+VALID_ARCHS[sdk=iphonesimulator*]      = i386 x86_64
+VALID_ARCHS[sdk=watchos*]              = armv7k
+VALID_ARCHS[sdk=watchsimulator*]       = i386
+VALID_ARCHS[sdk=appletv*]              = arm64
+VALID_ARCHS[sdk=appletvsimulator*]     = x86_64
+
+IPHONEOS_DEPLOYMENT_TARGET = 11.0
+MACOSX_DEPLOYMENT_TARGET = 10.13
+TVOS_DEPLOYMENT_TARGET = 11.0
+WATCHOS_DEPLOYMENT_TARGET = 4.0
