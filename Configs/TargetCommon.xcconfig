@@ -6,6 +6,11 @@
 //  Copyright © 2018 Zhu Shengqi. All rights reserved.
 //
 
+
+DEVELOPMENT_TEAM = ;
+PROVISIONING_PROFILE_SPECIFIER = ;
+CODE_SIGN_IDENTITY = ;
+
 // Dynamic linking uses different default copy paths
 LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]           = $(inherited) '@executable_path/../Frameworks' '@loader_path/../Frameworks'
 LD_RUNPATH_SEARCH_PATHS[sdk=iphoneos*]         = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
@@ -14,9 +19,3 @@ LD_RUNPATH_SEARCH_PATHS[sdk=watchos*]          = $(inherited) '@executable_path/
 LD_RUNPATH_SEARCH_PATHS[sdk=watchsimulator*]   = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 LD_RUNPATH_SEARCH_PATHS[sdk=appletvos*]        = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
 LD_RUNPATH_SEARCH_PATHS[sdk=appletvsimulator*] = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-
-
-DEVELOPMENT_TEAM = ;
-PROVISIONING_PROFILE_SPECIFIER = ;
-CODE_SIGN_IDENTITY = ;
-

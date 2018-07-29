@@ -9,3 +9,5 @@
 #include "TargetCommon.xcconfig"
 
 INFOPLIST_FILE = Sources/Info.plist
+
+APPLICATION_EXTENSION_API_ONLY = YES
