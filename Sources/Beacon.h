@@ -6,7 +6,7 @@
 //  Copyright © 2017 zetasq. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+@import Foundation;
 
 //! Project version number for Beacon-iOS.
 FOUNDATION_EXPORT double Beacon_iOSVersionNumber;

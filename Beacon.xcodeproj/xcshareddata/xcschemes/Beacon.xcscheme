@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "0940"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
+               BlueprintIdentifier = "D4C5DDBC1EF12F3E00292CF5"
                BuildableName = "Beacon.framework"
-               BlueprintName = "Beacon-macOS"
+               BlueprintName = "Beacon"
                ReferencedContainer = "container:Beacon.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -32,9 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "D4A78AB81EF2CF6600939B46"
-               BuildableName = "Beacon-macOSTests.xctest"
-               BlueprintName = "Beacon-macOSTests"
+               BlueprintIdentifier = "D4C5DDC41EF12F3E00292CF5"
+               BuildableName = "Beacon-Tests.xctest"
+               BlueprintName = "Beacon-Tests"
                ReferencedContainer = "container:Beacon.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -42,9 +42,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
+            BlueprintIdentifier = "D4C5DDBC1EF12F3E00292CF5"
             BuildableName = "Beacon.framework"
-            BlueprintName = "Beacon-macOS"
+            BlueprintName = "Beacon"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -64,9 +64,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
+            BlueprintIdentifier = "D4C5DDBC1EF12F3E00292CF5"
             BuildableName = "Beacon.framework"
-            BlueprintName = "Beacon-macOS"
+            BlueprintName = "Beacon"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -82,9 +82,9 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "D4A78AB01EF2CF6600939B46"
+            BlueprintIdentifier = "D4C5DDBC1EF12F3E00292CF5"
             BuildableName = "Beacon.framework"
-            BlueprintName = "Beacon-macOS"
+            BlueprintName = "Beacon"
             ReferencedContainer = "container:Beacon.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
