@@ -14,7 +14,7 @@ public protocol BroadcastIdentifiable: RawRepresentable {
   
 }
 
-public protocol SignalBroadcasting: class {
+public protocol SignalBroadcasting: AnyObject {
   
   associatedtype BroadcastIdentifier: BroadcastIdentifiable
   
