@@ -25,7 +25,7 @@ WATCHOS_DEPLOYMENT_TARGET = 4.3
 
 // OSX-specific default settings
 FRAMEWORK_VERSION[sdk=macosx*]                = A
-COMBINE_HIDPI_IMAGES[sdk=macosx*]             = YES
+COMBINE_HIDPI_IMAGES                          = YES
 
 // iOS-specific default settings
 TARGETED_DEVICE_FAMILY[sdk=iphonesimulator*]  = 1,2
